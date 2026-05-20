@@ -8,8 +8,9 @@
 <body>
   <h1> ALL LISTINGS</h1>
   <ul>
-    <% for (let listing of allListings) { %>
+    <% for (let listing of alllistings) { %>
       <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
+      <a href="/listings/<%= listing._id %>">show</a>
     <% } %>
   </ul>
 </body>

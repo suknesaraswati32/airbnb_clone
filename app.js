@@ -30,8 +30,13 @@ app.get("/",(req,res)=>{
 // })
 
 app.get("/listings/all",async(req,res)=>{
-  let listings=await Listing.find({})
-  res.render("/listings/index.ejs", { listings })
+  let alllistings=await Listing.find({})
+  res.render("listings/index", { alllistings })
+})
+app.get("/listings/:id",async(req,res)=>{
+  let {id}=req.params
+  let listing= await Listing.findById(id)
+  res.render("listings/show",{listing})
 })
 app.listen(8080,()=>{
   console.log("server is running on port 8080")
