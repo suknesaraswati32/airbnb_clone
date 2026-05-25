@@ -5,6 +5,9 @@ const Listing=require("./models/listing.js")
 const path=require("path")
 const methodOverride = require('method-override')
 const ejsMate=require("ejs-mate")
+const { error } = require("console")
+const ExpressError=require("./utils/ExpressError.js")
+const wrapAsync=require("./utils/wrapAsync.js")
 const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust"
 main().then(() => console.log("Connected to MongoDB"))
 .catch(err => console.log(err));
@@ -17,9 +20,6 @@ app.engine("ejs",ejsMate)
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
-app.get("/",(req,res)=>{
-  res.send("Hello World")
-})
 // app.get("/listings",async(req,res)=>{
 //   let sampleListing=new Listing({
 //     title:"new palace",
@@ -33,12 +33,13 @@ app.get("/",(req,res)=>{
 //   res.send("Listing created")
 // })
 
-app.get("/listings/all",async(req,res)=>{
+app.get("/listings",async(req,res)=>{
   let alllistings=await Listing.find({})
   res.render("listings/index", { alllistings })
+
 })
 
-app.get("/listings/new",(req,res)=>{
+app.get("/listings/new",wrapAsync,(req,res)=>{
   res.render("listings/new.ejs")
 })
 app.post("/listings",async(req,res)=>{
@@ -71,6 +72,14 @@ app.delete("/listings/:id",async(req,res)=>{
   let {id}=req.params
   await Listing.findByIdAndDelete(id)
   res.redirect("/listings/all")
+})
+
+app.all("/",(req,res,next)=>{
+  next(new ExpressError(404,"page not found !"))
+})
+app.use((err,req,res,next)=>{
+  let{statusCode,message}=err
+  res.send(statusCode).send(message)
 })
 app.listen(8080,()=>{
   console.log("server is running on port 8080")
