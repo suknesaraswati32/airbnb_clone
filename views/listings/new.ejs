@@ -20,13 +20,14 @@
   <label for="description" class="form-label">Description</label>
   <textarea 
     name="listing[description]"
-    placeholder="Enter description" 
-    type="text"
+    placeholder="Enter description"
     class="form-control"
-    required>
-  </textarea>
-  <div class="invalid-feedback">Please enter a short Description</div>
+    required></textarea>
+
+  <div class="invalid-feedback">
+    Description should be valid
   </div>
+</div>
   <div class="mb-3">
   <label for="image" class="form-label">Image URL</label>
   <input name="listing[image][url]" 
@@ -39,7 +40,7 @@
   <label for="price" class="form-label">Price</label>
   <input name="listing[price]"
     placeholder="1200" 
-
+    
     class="form-control"
    required>
    <div class="invalid-feedback">price should be valid</div>
