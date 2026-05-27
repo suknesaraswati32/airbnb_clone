@@ -53,6 +53,18 @@ app.get("/listings",wrapAsync(async(req,res)=>{
 
 }))
 
+// #error handling
+// try{
+//   const products=await getproducts()
+// }
+// catch(err){
+//   //loger
+//   //check if code are in production level or in dev stage
+//   const isProd=process.env.NODE_ENV === "PRODUCTION"
+//   res.json({message: isProd ? 'Something went Wrong !!':error.message})
+//   return
+// }
+
 app.get("/listings/new",(req,res)=>{
   res.render("listings/new.ejs")
 })
@@ -99,6 +111,9 @@ app.use((err,req,res,next)=>{
 res.status(statusCode).render("listings/error.ejs",{err})
 })
 
+app.use((error,req,res,next)=>{
+
+})
 
 app.listen(8080,()=>{
   console.log("server is running on port 8080")
