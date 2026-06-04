@@ -53,7 +53,7 @@ app.get("/listings",wrapAsync(async(req,res)=>{
 
 }))
 
-// #error handling
+// error handels this below statement
 // try{
 //   const products=await getproducts()
 // }
