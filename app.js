@@ -110,7 +110,7 @@ app.use((err,req,res,next)=>{
 //  res.status(statusCode).send(message)
 res.status(statusCode).render("listings/error.ejs",{err})
 })
-
+//use the port no 8080
 app.listen(8080,()=>{
   console.log("server is running on port 8080")
 })
