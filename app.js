@@ -9,6 +9,8 @@ const reviews=require("./routes/reviews.js")
 const { error } = require("console")
 const ExpressError=require("./utils/ExpressError.js")
 const Listing=require("./models/listing.js")
+const session=require("express-session")
+const flash=require("connect-flash")
 const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust"
 main()
 .then(() =>
@@ -20,6 +22,23 @@ app.set("views",path.join(__dirname,"views"))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname,"public")))
 app.use(express.urlencoded({extended:true}))
+const sessionoptions={
+  secret:"mysupersecretcode",
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+    expires:Date.now()+7*24*60*60*1000,
+    maxage:7*24*60*60*1000,
+    httpOnly:true,
+  }
+}
+app.use(session(sessionoptions))
+app.use(flash())
+app.use((req,res,next)=>{
+res.locals.success=req.flash("success")
+res.locals.error=req.flash("error")
+next()
+})
 app.use("/listings",listings)
 app.use("/listings/:id/reviews",reviews)
 app.engine("ejs",ejsMate)
@@ -51,6 +70,7 @@ app.use((err,req,res,next)=>{
 //  res.status(statusCode).send(message)
 res.status(statusCode).render("listings/error.ejs",{err})
 })
+
 //use the port no 8080
 app.listen(8080,()=>{
   console.log("server is running on port 8080")
