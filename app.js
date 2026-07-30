@@ -46,6 +46,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req,res,next)=>{
 res.locals.success=req.flash("success")
 res.locals.error=req.flash("error")
+res.locals.currUser=req.user
 next()
 })
 app.use("/listings",listingRouter)
@@ -85,11 +86,24 @@ app.all("/",(req,res,next)=>{
 })
 
 //middleware for error handling
-app.use((err,req,res,next)=>{
-  let {statusCode=500,message="something went wrong"}=err;
-//  res.status(statusCode).send(message)
-res.status(statusCode).render("listings/error.ejs",{err})
-})
+// app.use((err,req,res,next)=>{
+//   let {statusCode=500,message="something went wrong"}=err;
+// //  res.status(statusCode).send(message)
+// res.status(statusCode).render("listings/error.ejs",{err})
+// })
+
+
+app.use((err, req, res, next) => {
+    console.log("\n========== ERROR ==========");
+    console.log("URL:", req.originalUrl);
+    console.log("Method:", req.method);
+    console.log("Error Name:", err.name);
+    console.log("Message:", err.message);
+    console.log("Stack:\n", err.stack);
+    console.log("===========================\n");
+
+    res.status(err.status || 500).send(err.message);
+});
 
 //use the port no 8080
 app.listen(8080,()=>{
