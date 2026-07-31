@@ -20,7 +20,7 @@ router.post(
     if(err){
       return next(err)
     }
-    req.flash("success","user registred successfully!")
+  req.flash("success","user registred successfully!")
   res.redirect("/listings")
   })
   }

@@ -1,6 +1,7 @@
 const Listing=require("./models/listing")
+const Review=require("./models/review")
 const ExpressError=require("./utils/ExpressError.js")
-const {listingSchema}=require("./schema.js")
+const {listingSchema,reviewSchema}=require("./schema.js")
 module.exports.isLoggedIn=(req,res,next)=>{
   
     if(!req.isAuthenticated()){
@@ -48,4 +49,15 @@ if(error){
 }else{
   next()
 }
+}
+
+
+module.exports.isReviewAuthor=async(req,res,next)=>{
+let{id,reviewId}=req.params
+let review=review.findById(reviewId)
+if(!review.author.equals(res.locals.currUser._id)){
+  req.flash("error","you did not create Review")
+  return res.redirect(`listings/${id}`)
+}
+next()
 }
