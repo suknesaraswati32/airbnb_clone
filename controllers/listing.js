@@ -25,13 +25,22 @@ module.exports.showListing=async(req,res)=>{
   res.render("listings/show",{listing})
 }
 
-module.exports.createListing=async(req,res,next)=>{
- const newListing=new Listing(req.body.listing);
- newListing.owner=req.user._id
- await newListing.save()
- req.flash("success","new listing created")
-res.redirect("/listings")
-}
+module.exports.createListing = async (req, res, next) => {
+    const newListing = new Listing(req.body.listing);
+
+    newListing.owner = req.user._id;
+
+    newListing.images = req.files.map(file => ({
+        filename: file.filename,
+        url: file.path
+    }));
+
+    await newListing.save();
+
+    req.flash("success", "New Listing Created!");
+
+    res.redirect("/listings");
+};
 
 module.exports.renderEditForm=async(req,res)=>{
   let {id}=req.params
