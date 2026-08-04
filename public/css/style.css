@@ -196,3 +196,8 @@ text-decoration:underline;
 .col-md-6 {
     padding:8px;
 }
+
+#map{
+  height: 400px;
+  width:80vh;
+}
