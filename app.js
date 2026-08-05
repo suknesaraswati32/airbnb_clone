@@ -84,9 +84,9 @@ async function main() {
 // })
 
 
-app.all("/",(req,res,next)=>{
-  next(new ExpressError(404,"page not found"))
-})
+// app.all("/",(req,res,next)=>{
+//   next(new ExpressError(404,"page not found"))
+// })
 
 //middleware for error handling
 // app.use((err,req,res,next)=>{
