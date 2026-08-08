@@ -56,6 +56,22 @@ module.exports.createListing = async (req, res, next) => {
     res.redirect("/listings");
 };
 
+module.exports.searchListing=async(req,res)=>{
+  let {q}=req.query
+  let alllistings=await Listing.find({$or:[{location:{$regex:q,$options:"i"}},{category:{$regex:q,$options:"i"}},{title:{$regex:q,$options:"i"}},{country:{$regex:q,$options:"i"}}]})
+  if(alllistings.length === 0){
+    req.flash("error","Listing is not found")
+  }
+  res.render("listings/index.ejs",{alllistings})
+  
+}
+
+module.exports.filterListing=async(req,res)=>{
+  let {category}=req.query
+  const alllistings=await Listing.find({category:category})
+  res.render("listings/index.ejs",{alllistings})
+}
+
 module.exports.renderEditForm=async(req,res)=>{
   let {id}=req.params
   const listing=await Listing.findById(id)

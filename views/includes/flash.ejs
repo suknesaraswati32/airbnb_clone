@@ -10,14 +10,21 @@
 </div>
 <% } %>
 
+
+
 <% if(error && error.length){ %>
-<div class="alert alert-success alert-dismissable fade show col-6 offset-3" role="alert">
- <%= error %>
- <button 
- type="button" 
- class="btn-close" 
- data-bs-dismiss="alert" 
- aria-label="close"
- ></button>
+<div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3 shadow-sm d-flex align-items-center" role="alert">
+
+    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+
+    <span><%= error %></span>
+
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close">
+    </button>
+
 </div>
 <% } %>

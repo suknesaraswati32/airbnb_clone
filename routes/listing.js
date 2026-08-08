@@ -20,7 +20,8 @@ router
 
 router.get("/new",isLoggedIn,listingController.rendernewform)
 
-
+router.get("/filter",wrapAsync(listingController.filterListing))
+router.get("/search",wrapAsync(listingController.searchListing))
 router
 .route("/:id")
 .get(wrapAsync(listingController.showListing))
