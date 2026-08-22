@@ -75,7 +75,7 @@ app.use("/",userRouter)
 app.engine("ejs",ejsMate)
 
 
-// middleware for error handling
+// middleware for error handler
 app.use((err,req,res,next)=>{
   let {statusCode=500,message="something went wrong"}=err;
 res.status(statusCode).render("listings/error.ejs",{err})
