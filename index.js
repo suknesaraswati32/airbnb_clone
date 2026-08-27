@@ -74,7 +74,9 @@ app.use("/listings/:id/reviews",reviewRouter)
 app.use("/",userRouter)
 app.engine("ejs",ejsMate)
 
-
+app.get("/", (req, res) => {
+  res.send("Wanderlust server is running!");
+});
 // middleware for error handler
 app.use((err,req,res,next)=>{
   let {statusCode=500,message="something went wrong"}=err;
