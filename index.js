@@ -69,21 +69,25 @@ res.locals.error=req.flash("error")
 res.locals.currUser=req.user
 next()
 })
-app.use("/listings",listingRouter)
-app.use("/listings/:id/reviews",reviewRouter)
-app.use("/",userRouter)
-app.engine("ejs",ejsMate)
 
-app.get("/", (req, res) => {
-    res.render("listings/index.ejs");
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
+app.engine("ejs", ejsMate);
+
+app.get("/", async (req, res) => {
+  const alllistings = await Listing.find({});
+  res.render("listings/index.ejs", { alllistings });
 });
-// middleware for error handler
-app.use((err,req,res,next)=>{
-  let {statusCode=500,message="something went wrong"}=err;
-res.status(statusCode).render("listings/error.ejs",{err})
-})
 
-//use the port no 8080
-app.listen(8080,()=>{
-  console.log("server is running on port 8080")
-})
+// middleware for error handler
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "something went wrong" } = err;
+  res.status(statusCode).render("listings/error.ejs", { err });
+});
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`server is running on port ${PORT}`);
+});
