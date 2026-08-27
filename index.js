@@ -75,7 +75,7 @@ app.use("/",userRouter)
 app.engine("ejs",ejsMate)
 
 app.get("/", (req, res) => {
-  res.send("Wanderlust server is running!");
+    res.render("listings/index.ejs");
 });
 // middleware for error handler
 app.use((err,req,res,next)=>{
